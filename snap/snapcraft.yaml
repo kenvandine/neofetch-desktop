@@ -3,8 +3,8 @@ base: core22
 version: '0.1'
 summary: Neofetch Desktop
 description: |
-  Neofetch Desktop
-
+  Shows Linux System Information with Distribution Logo
+icon: data/neofetch-desktop.png
 grade: stable
 confinement: strict
 
@@ -52,6 +52,8 @@ parts:
       - --prefix=/usr
     prime:
       - usr/bin/neofetch-desktop
+      - usr/share/applications/neofetch-desktop.desktop
+      - usr/share/icons
 
   # Find files provided by the base and platform snap and ensure they aren't
   # duplicated in this snap
@@ -69,6 +71,7 @@ apps:
   neofetch-desktop:
     extensions: [ gnome ]
     command: usr/bin/neofetch-desktop
+    desktop: usr/share/applications/neofetch-desktop.desktop
     plugs:
       - hardware-observe
       - system-observe
