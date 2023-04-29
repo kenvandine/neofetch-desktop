@@ -30,7 +30,11 @@ static void activate (GtkApplication *app, gpointer user_data) {
 
     // Create a new window
     window = gtk_application_window_new (app);
-    gtk_window_set_title(GTK_WINDOW (window), "Neofetch Desktop");
+    gtk_window_set_title (GTK_WINDOW (window), "Neofetch Desktop");
+
+    // Prefer Dark Theme
+    g_object_set(gtk_settings_get_default(),
+                "gtk-application-prefer-dark-theme", TRUE, NULL);
 
     box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_halign (box, GTK_ALIGN_CENTER);
@@ -88,7 +92,7 @@ int main (int argc, char *argv[]) {
     int status;
 
     // Create a new GTK application
-    app = gtk_application_new ("org.vandine.ken.neofetch", G_APPLICATION_DEFAULT_FLAGS);
+    app = gtk_application_new ("org.vandine.ken.neofetch", G_APPLICATION_NON_UNIQUE);
 
     // Connect the activate function to the activate signal
     g_signal_connect(app, "activate", G_CALLBACK (activate), NULL);
