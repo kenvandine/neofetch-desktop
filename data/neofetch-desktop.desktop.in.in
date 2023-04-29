@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Neofetch Desktop
+Exec=@BIN_NAME@
+Icon=neofetch-desktop.png
+Keywords=system;
+Terminal=false
+Type=Application
+Categories=System;X-GNOME-Utilities;GTK;GNOME;
+StartupNotify=true
