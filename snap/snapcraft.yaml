@@ -11,13 +11,12 @@ confinement: strict
 parts:
   neofetch:
     plugin: make
-    #source: https://github.com/jibel/neofetch.git
     source: https://github.com/hykilpikonna/hyfetch.git
     stage-packages:
       - bind9-dnsutils
       - pciutils
     prime:
-      - -usr/lib/*/libisccc-9.18.12-0ubuntu0.22.04.1-Ubuntu.so
+      - -usr/lib/*/libisccc*.so
         
   vte:
     source: https://gitlab.gnome.org/GNOME/vte.git
@@ -76,6 +75,3 @@ apps:
       - hardware-observe
       - system-observe
       - network
-      - desktop
-      - wayland
-      - x11
