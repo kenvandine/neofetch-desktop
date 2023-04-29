@@ -1,0 +1,78 @@
+name: neofetch-desktop
+base: core22
+version: '0.1'
+summary: Neofetch Desktop
+description: |
+  Neofetch Desktop
+
+grade: stable
+confinement: strict
+
+parts:
+  neofetch:
+    plugin: make
+    #source: https://github.com/jibel/neofetch.git
+    source: https://github.com/hykilpikonna/hyfetch.git
+    stage-packages:
+      - bind9-dnsutils
+      - pciutils
+    prime:
+      - -usr/lib/*/libisccc-9.18.12-0ubuntu0.22.04.1-Ubuntu.so
+        
+  vte:
+    source: https://gitlab.gnome.org/GNOME/vte.git
+    source-tag: '0.70.5'
+    source-depth: 1
+    plugin: meson
+    meson-parameters:
+      - --prefix=/usr
+      - -Doptimization=3
+      - -Dgir=false
+      - -Da11y=false
+      - -Dicu=false
+      - -Ddocs=false
+      - -Dglade=false
+      - -Dgnutls=true
+      - -Dfribidi=false
+      - -Dgtk3=false
+      - -Dgtk4=true
+      - -D_systemd=false
+      - -Dvapi=false
+    override-pull: |
+      craftctl default
+      sed -i 's#error=format#format#' meson.build
+    prime:
+      - usr/lib/*/libvte*gtk4.so.*
+        
+  neofetch-desktop:
+    after: [ vte ]
+    plugin: meson
+    source: .
+    meson-parameters:
+      - --prefix=/usr
+    prime:
+      - usr/bin/neofetch-desktop
+
+  # Find files provided by the base and platform snap and ensure they aren't
+  # duplicated in this snap
+  cleanup:
+    after: [neofetch, neofetch-desktop]
+    plugin: nil
+    build-snaps: [core22, gtk-common-themes, gnome-42-2204]
+    override-prime: |
+      set -eux
+      for snap in "core22" "gtk-common-themes" "gnome-42-2204"; do
+        cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$CRAFT_PRIME/{}" \;
+      done
+
+apps:
+  neofetch-desktop:
+    extensions: [ gnome ]
+    command: usr/bin/neofetch-desktop
+    plugs:
+      - hardware-observe
+      - system-observe
+      - network
+      - desktop
+      - wayland
+      - x11
