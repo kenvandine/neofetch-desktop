@@ -4,11 +4,11 @@
 #include "rgba.h"
 
 static void spawn_child_process (VteTerminal *terminal) {
-    char *command_argv[2] = { "neofetch\0", NULL };
+    char *command_argv[2] = { "neofetch", NULL };
 
     vte_terminal_spawn_async (
         VTE_TERMINAL (terminal),
-	VTE_PTY_NO_HELPER,
+	VTE_PTY_DEFAULT,
 	NULL,
 	command_argv,
 	NULL,
