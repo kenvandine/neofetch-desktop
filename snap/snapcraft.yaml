@@ -32,7 +32,16 @@ parts:
       - bind9-dnsutils
       - pciutils
     prime:
-      - -usr/lib/*/libisccc*.so
+      - usr/bin/*
+      - usr/lib/*/libpci.so*
+      - usr/lib/*/libbind9*.so
+      - usr/lib/*/libdns-9*.so
+      - usr/lib/*/libirs-9*.so
+      - usr/lib/*/libisc-9*.so
+      - usr/lib/*/libisccfg-9*.so
+      - usr/lib/*/liblmdb.so.*
+      - usr/lib/*/libmaxminddb.so.*
+      - usr/lib/*/libns-9*.so
 
   vte:
     source: https://gitlab.gnome.org/GNOME/vte.git
