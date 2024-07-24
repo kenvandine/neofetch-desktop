@@ -1,6 +1,6 @@
 name: neofetch-desktop
 base: core24
-version: git
+adopt-info: neofetch-desktop
 summary: Neofetch Desktop
 description: |
   Shows Linux System Information with Distribution Logo
@@ -65,6 +65,9 @@ parts:
     source: .
     meson-parameters:
       - --prefix=/usr
+    override-pull: |
+      craftctl default
+      craftctl set version=$(git describe --tags --abbrev=10)
     prime:
       - usr/bin/neofetch-desktop
       - usr/share/applications/neofetch-desktop.desktop
