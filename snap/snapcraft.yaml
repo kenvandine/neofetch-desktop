@@ -15,19 +15,12 @@ platforms:
   arm64:
     build-on: [arm64]
     build-for: [arm64]
-  armhf:
-    build-on: [armhf]
-    build-for: [armhf]
-
-layout:
-  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy/libpxbackend-1.0.so:
-    symlink: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy/libpxbackend-1.0.so
 
 parts:
   neofetch:
     plugin: make
     source: https://github.com/hykilpikonna/hyfetch.git
-    source-tag: '1.4.10'
+    source-tag: '1.4.11'
     stage-packages:
       - bind9-dnsutils
       - pciutils
@@ -45,7 +38,7 @@ parts:
 
   vte:
     source: https://gitlab.gnome.org/GNOME/vte.git
-    source-tag: '0.70.5'
+    source-tag: '0.72.1'
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -67,7 +60,7 @@ parts:
       sed -i 's#error=format#format#' meson.build
     prime:
       - usr/lib/*/libvte*gtk4.so.*
-        
+      
   neofetch-desktop:
     after: [ vte ]
     plugin: meson
@@ -83,7 +76,7 @@ parts:
       - usr/share/icons
 
   # Find files provided by the base and platform snap and ensure they aren't
-  # duplicated in this snap
+duplicated in this snap
   cleanup:
     after: [neofetch, neofetch-desktop]
     plugin: nil
