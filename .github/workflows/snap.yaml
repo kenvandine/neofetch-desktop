@@ -24,3 +24,20 @@ jobs:
       with:
         snap: ${{ steps.build.outputs.snap }}
         release: candidate
+
+  build-arm64:
+    runs-on: ubuntu-24.04-arm64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+    - uses: snapcore/action-build@v1
+      id: build
+    - uses: snapcore/action-publish@v1
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      env:
+        SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+      with:
+        snap: ${{ steps.build.outputs.snap }}
+        release: candidate
