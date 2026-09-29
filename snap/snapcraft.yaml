@@ -20,7 +20,7 @@ parts:
   neofetch:
     plugin: make
     source: https://github.com/hykilpikonna/hyfetch.git
-    source-tag: '1.4.11'
+    source-tag: '2.0.5'
     stage-packages:
       - bind9-dnsutils
       - pciutils
