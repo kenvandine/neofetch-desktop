@@ -10,11 +10,7 @@ confinement: strict
 
 platforms:
   amd64:
-    build-on: [amd64]
-    build-for: [amd64]
   arm64:
-    build-on: [arm64]
-    build-for: [arm64]
 
 parts:
   neofetch:
@@ -75,8 +71,7 @@ parts:
       - usr/share/applications/neofetch-desktop.desktop
       - usr/share/icons
 
-  # Find files provided by the base and platform snap and ensure they aren't
-duplicated in this snap
+  # Find files provided by the base and platform snap and ensure they aren't duplicated in this snap
   cleanup:
     after: [neofetch, neofetch-desktop]
     plugin: nil
