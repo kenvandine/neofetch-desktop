@@ -13,18 +13,31 @@ platforms:
   arm64:
 
 parts:
-  neofetch:
-    plugin: make
+  hyfetch:
+    # hyfetch >= 2.0 is a Rust (Cargo) rewrite; the pre-2.0 releases were
+    # Python/Make-based and provided a "neofetch" binary, whereas this
+    # produces a "hyfetch" binary instead (see neofetch-desktop part below
+    # and src/neofetch-desktop.c for the corresponding command update).
+    plugin: rust
     source: https://github.com/hykilpikonna/hyfetch.git
-    source-tag: '1.4.11'
-    build-packages:
-      - python3
-      - python-is-python3
+    source-tag: '2.0.5'
+    # The gnome extension injects an LD_LIBRARY_PATH pointing into the
+    # gnome-46-2404-sdk snap for every part. The classically-confined
+    # rustup build-snap's binary is incompatible with that SDK's glibc
+    # (it crashes with a "symbol lookup error"/undefined GLIBC_PRIVATE
+    # symbol), which craft-parts then misreports as "'rustup' not found".
+    # Reset LD_LIBRARY_PATH (not needed to build hyfetch) and make sure
+    # /snap/bin (where rustup lives) is on PATH.
+    build-environment:
+      - PATH: /snap/bin:$PATH
+      - LD_LIBRARY_PATH: ""
+    organize:
+      hyfetch: usr/bin/hyfetch
     stage-packages:
       - bind9-dnsutils
       - pciutils
     prime:
-      - usr/bin/*
+      - usr/bin/hyfetch
       - usr/lib/*/libpci.so*
       - usr/lib/*/libbind9*.so
       - usr/lib/*/libdns-9*.so
@@ -73,10 +86,11 @@ parts:
       - usr/bin/neofetch-desktop
       - usr/share/applications/neofetch-desktop.desktop
       - usr/share/icons
+      - usr/share/neofetch-desktop
 
   # Find files provided by the base and platform snap and ensure they aren't duplicated in this snap
   cleanup:
-    after: [neofetch, neofetch-desktop]
+    after: [hyfetch, neofetch-desktop]
     plugin: nil
     build-snaps: [core24, gtk-common-themes, gnome-46-2404]
     override-prime: |

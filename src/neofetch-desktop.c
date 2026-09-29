@@ -2,9 +2,32 @@
 #include <gdk/gdk.h>
 #include <vte/vte.h>
 #include "rgba.h"
+#include "config.h"
+
+// Builds the path to the bundled default hyfetch config, so hyfetch never
+// blocks on its interactive first-run color-setup wizard. When running as a
+// strict snap, DATA_DIR (an absolute /usr/share/... path baked in at build
+// time) only resolves inside the base snap, so the app's own files must be
+// looked up under $SNAP instead.
+static char *get_hyfetch_config_path (void) {
+    const char *snap = g_getenv ("SNAP");
+
+    if (snap != NULL) {
+        // DATA_DIR is always absolute (e.g. "/usr/share/neofetch-desktop");
+        // skip the leading separator to make it relative to $SNAP.
+        const char *relative_data_dir = DATA_DIR;
+        while (*relative_data_dir == '/')
+            relative_data_dir++;
+
+        return g_build_filename (snap, relative_data_dir, "hyfetch.json", NULL);
+    }
+
+    return g_build_filename (DATA_DIR, "hyfetch.json", NULL);
+}
 
 static void spawn_child_process (VteTerminal *terminal) {
-    char *command_argv[2] = { "neofetch", NULL };
+    char *config_path = get_hyfetch_config_path ();
+    char *command_argv[4] = { "hyfetch", "--config-file", config_path, NULL };
 
     vte_terminal_spawn_async (
         VTE_TERMINAL (terminal),
@@ -21,6 +44,8 @@ static void spawn_child_process (VteTerminal *terminal) {
 	NULL,
 	NULL
     );
+
+    g_free (config_path);
 }
 
 static void activate (GtkApplication *app, gpointer user_data) {
