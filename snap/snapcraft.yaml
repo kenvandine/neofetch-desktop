@@ -17,6 +17,9 @@ parts:
     plugin: make
     source: https://github.com/hykilpikonna/hyfetch.git
     source-tag: '1.4.11'
+    build-packages:
+      - python3
+      - python-is-python3
     stage-packages:
       - bind9-dnsutils
       - pciutils
