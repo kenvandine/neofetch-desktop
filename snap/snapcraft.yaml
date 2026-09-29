@@ -20,7 +20,7 @@ parts:
   neofetch:
     plugin: make
     source: https://github.com/hykilpikonna/hyfetch.git
-    source-tag: '1.4.11'
+    source-tag: '1.4.12'
     stage-packages:
       - bind9-dnsutils
       - pciutils
@@ -55,6 +55,13 @@ parts:
       - -Dgtk4=true
       - -D_systemd=false
       - -Dvapi=false
+    build-packages:
+      - libgtk-4-dev
+      - libvte-2.91-dev
+      - libglib2.0-dev
+      - libgirepository1.0-dev
+      - meson
+      - ninja-build
     override-pull: |
       craftctl default
       sed -i 's#error=format#format#' meson.build
