@@ -27,3 +27,9 @@ endif
 install_data(icon_filename,
      install_dir: datadir / 'icons/hicolor/scalable/apps',
 )
+
+# Default hyfetch config, bundled so the first run does not block on
+# hyfetch's interactive color-setup wizard.
+install_data('hyfetch.json',
+     install_dir: pkgdatadir,
+)

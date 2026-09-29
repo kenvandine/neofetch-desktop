@@ -1,0 +1,15 @@
+{
+  "preset": "rainbow",
+  "mode": "rgb",
+  "auto_detect_light_dark": null,
+  "light_dark": null,
+  "lightness": null,
+  "color_align": {
+    "mode": "horizontal"
+  },
+  "backend": "neofetch",
+  "args": null,
+  "distro": null,
+  "pride_month_disable": true,
+  "custom_ascii_path": null
+}
