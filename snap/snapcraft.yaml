@@ -20,7 +20,7 @@ parts:
     # and src/neofetch-desktop.c for the corresponding command update).
     plugin: rust
     source: https://github.com/hykilpikonna/hyfetch.git
-    source-tag: '2.0.5'
+    source-tag: '2.1.0'
     # The gnome extension injects an LD_LIBRARY_PATH pointing into the
     # gnome-46-2404-sdk snap for every part. The classically-confined
     # rustup build-snap's binary is incompatible with that SDK's glibc
